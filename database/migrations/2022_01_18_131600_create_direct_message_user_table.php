@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDirectMessageHasUsersTable extends Migration
+class CreateDirectMessageUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateDirectMessageHasUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('direct_message_has_users', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id');
+        Schema::create('direct_message_user', function (Blueprint $table) {
             $table->unsignedBigInteger('direct_message_id');
+            $table->unsignedBigInteger('user_id');
         });
     }
 
@@ -26,6 +26,6 @@ class CreateDirectMessageHasUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('direct_message_has_users');
+        Schema::dropIfExists('direct_message_user');
     }
 }
