@@ -19,13 +19,13 @@ class AuthController extends Controller
             $token = $user->createToken($user->name);
             return $this->sendResponse('Login Success', $token, 200);
         } else {
-            return $this->sendResponse('Login Fail', '', 401);
+            return $this->sendResponse('Login Fail', [], 401);
         }
     }
 
     public function logout(Request $request)
     {
         Auth::user()->currentAccessToken()->delete();
-        return $this->sendResponse('Logout', '', 200);
+        return $this->sendResponse('Logout', [], 200);
     }
 }
