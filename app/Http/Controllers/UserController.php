@@ -43,7 +43,7 @@ class UserController extends Controller
             'password' => bcrypt($request->password),
         ]);
 
-        return $this->sendResponse('Success Create User', $user, 200);
+        return $this->sendResponse('Success For Create User', $user, 200);
     }
 
     /**
