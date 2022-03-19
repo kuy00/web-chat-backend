@@ -41,12 +41,8 @@ class DirectMessageController extends Controller
             DB::beginTransaction();
 
             $users = $request->users;
-            $users[] = Auth::id();
-
-            $directMessage = DirectMessage::create([
-                'name' => $request->name,
-            ]);
-            $directMessage->users()->attach($users);
+            $name = $request->name;
+            $directMessage = DirectMessage::CreateDirectMesage($name, $users);
 
             DB::commit();
             return $this->sendResponse('Success For Create Direct Message', $directMessage, 200);

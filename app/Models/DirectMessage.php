@@ -18,4 +18,14 @@ class DirectMessage extends Model
     {
         return $this->belongsToMany(User::class);
     }
+
+    public function scopeCreateDirectMesage($query, $name, $users)
+    {
+        $directMessage = $query->create([
+            'name' => $name,
+        ]);
+        $directMessage->users()->attach($users);
+
+        return $directMessage;
+    }
 }
