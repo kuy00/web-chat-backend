@@ -35,6 +35,6 @@ class User extends Authenticatable
 
     public function directMessages()
     {
-        return $this->belongsToMany(DirectMessage::class);
+        return $this->belongsToMany(DirectMessage::class)->withPivot('created_at');
     }
 }
