@@ -16,7 +16,6 @@ class AlterDirectMessageUserTableAddDateColumn extends Migration
     {
         Schema::table('direct_message_user', function (Blueprint $table) {
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->softDeletes();
         });
     }
 
@@ -29,7 +28,6 @@ class AlterDirectMessageUserTableAddDateColumn extends Migration
     {
         Schema::table('direct_message_user', function (Blueprint $table) {
             $table->dropColumn('created_at');
-            $table->dropSoftDeletes();
         });
     }
 }
