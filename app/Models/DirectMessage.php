@@ -19,6 +19,11 @@ class DirectMessage extends Model
         return $this->belongsToMany(User::class)->withPivot('created_at');
     }
 
+    public function directMessageContents()
+    {
+        return $this->hasMany(DirectMessageContents::class);
+    }
+
     public function scopeCheckDirectMessage($query, $userId)
     {
         return $query->whereHas('users', function ($query) use ($userId) {

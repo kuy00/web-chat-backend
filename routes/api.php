@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DirectMessageController;
+use App\Http\Controllers\MessageController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SocketController;
 use App\Http\Controllers\UserController;
@@ -24,6 +25,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/logout', [AuthController::class, 'logout']);
 
     Route::apiResource('/direct-message', DirectMessageController::class);
+    Route::apiResource('/message', MessageController::class);
 });
 
 Route::get('/socket', [SocketController::class, 'test']);

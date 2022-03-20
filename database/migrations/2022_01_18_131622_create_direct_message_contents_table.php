@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreateDirectMessageContentsTable extends Migration
@@ -18,7 +19,7 @@ class CreateDirectMessageContentsTable extends Migration
             $table->unsignedBigInteger('direct_message_id');
             $table->unsignedBigInteger('sender_user_id');
             $table->string('contents');
-            $table->date('created_at');
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
         });
     }
 
