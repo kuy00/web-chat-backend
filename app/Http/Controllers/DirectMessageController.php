@@ -6,6 +6,7 @@ use App\Models\DirectMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Arr;
 
 class DirectMessageController extends Controller
 {
@@ -37,19 +38,26 @@ class DirectMessageController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            DB::beginTransaction();
+        $directMessage = DirectMessage::whereHas('users', function ($query) use ($request) {
+            $query->groupBy('direct_message_id')->havingRaw('group_concat(direct_message_user.user_id) = ?', [implode(',', Arr::sort($request->users))]);
+        })->first();
 
-            $users = $request->users;
-            $name = $request->name;
-            $directMessage = DirectMessage::CreateDirectMesage($name, $users);
+        if (!$directMessage) {
+            try {
+                DB::beginTransaction();
 
-            DB::commit();
-            return $this->sendResponse('Success For Create Direct Message', $directMessage, 200);
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            return $this->sendResponse($th->getMessage(), [], 500);
+                $users = $request->users;
+                $name = $request->name;
+                $directMessage = DirectMessage::CreateDirectMesage($name, $users);
+
+                DB::commit();
+            } catch (\Throwable $th) {
+                DB::rollBack();
+                return $this->sendResponse($th->getMessage(), [], 500);
+            }
         }
+
+        return $this->sendResponse('Success For Create Direct Message', $directMessage, 200);
     }
 
     /**
