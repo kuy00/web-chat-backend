@@ -24,13 +24,11 @@ class DirectMessage extends Model
         return $this->hasMany(DirectMessageContents::class);
     }
 
-    public function scopeCheckDirectMessage($query, $userId)
+    public function scopeCheckDirectMessage($query, $id, $userId)
     {
         return $query->whereHas('users', function ($query) use ($userId) {
-            $query->select('direct_message_user.direct_message_id')
-                ->groupBy('direct_message_user.direct_message_id')
-                ->havingRaw("GROUP_CONCAT(direct_message_user.user_id) = '$userId'");
-        })->get();
+            $query->where('direct_message_user.user_id', $userId);
+        })->where('id', $id)->first();
     }
 
     public function scopeCreateDirectMesage($query, $name, $users)

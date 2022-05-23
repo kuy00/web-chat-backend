@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Broadcast;
+use App\Models\DirectMessage;
+use Illuminate\Support\Facades\Storage;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +16,12 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
+Broadcast::channel('direct_message.{id}', function ($user, $directMessageId) {
+    Storage::append('test.txt', $user->id);
+    Storage::append('test.txt', DirectMessage::CheckDirectMessage($directMessageId, $user->id));
+
+    if (DirectMessage::CheckDirectMessage($directMessageId, $user->id)) {
+        Storage::append('test.txt', 'pass');
+        return ['id' => $user->id, 'name' => $user->name];
+    }
 });

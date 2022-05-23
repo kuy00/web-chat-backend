@@ -36,7 +36,7 @@ class BroadCastEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('direct_message_'.$this->directMessage->id);
+        return new PresenceChannel('direct_message.'.$this->directMessage->id);
     }
 
     /**
