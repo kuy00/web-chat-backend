@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Models\DirectMessage;
+use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -16,6 +17,7 @@ class BroadCastEvent implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     private $directMessage;
+    private $user;
     private $message;
 
     /**
@@ -23,9 +25,10 @@ class BroadCastEvent implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct(DirectMessage $directMessage, $message)
+    public function __construct(DirectMessage $directMessage, User $user, $message)
     {
         $this->directMessage = $directMessage;
+        $this->user = $user;
         $this->message = $message;
     }
 
@@ -36,7 +39,7 @@ class BroadCastEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PresenceChannel('direct_message.'.$this->directMessage->id);
+        return new PresenceChannel('user.'.$this->user->id);
     }
 
     /**
@@ -46,6 +49,9 @@ class BroadCastEvent implements ShouldBroadcast
      */
     public function broadcastWith()
     {
-        return ['message' => $this->message];
+        return [
+            'direct_message' => $this->directMessage,
+            'message' => $this->message,
+        ];
     }
 }

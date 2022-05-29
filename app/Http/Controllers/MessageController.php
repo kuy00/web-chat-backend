@@ -44,7 +44,9 @@ class MessageController extends Controller
             'contents' => $message,
         ]);
 
-        broadcast(new BroadCastEvent($directMessage, $message));
+        foreach ($directMessage->users as $key => $value) {
+            broadcast(new BroadCastEvent($directMessage, $value, $message));
+        }
 
         return $directMessageContent;
     }

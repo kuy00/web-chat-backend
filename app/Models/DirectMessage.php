@@ -24,13 +24,6 @@ class DirectMessage extends Model
         return $this->hasMany(DirectMessageContents::class);
     }
 
-    public function scopeCheckDirectMessage($query, $id, $userId)
-    {
-        return $query->whereHas('users', function ($query) use ($userId) {
-            $query->where('direct_message_user.user_id', $userId);
-        })->where('id', $id)->first();
-    }
-
     public function scopeCreateDirectMesage($query, $name, $users)
     {
         $directMessage = $query->create([

@@ -16,12 +16,8 @@ use Illuminate\Support\Facades\Storage;
 |
 */
 
-Broadcast::channel('direct_message.{id}', function ($user, $directMessageId) {
-    Storage::append('test.txt', $user->id);
-    Storage::append('test.txt', DirectMessage::CheckDirectMessage($directMessageId, $user->id));
-
-    if (DirectMessage::CheckDirectMessage($directMessageId, $user->id)) {
-        Storage::append('test.txt', 'pass');
-        return ['id' => $user->id, 'name' => $user->name];
+Broadcast::channel('user.{id}', function ($user, $userId) {
+    if ($user->id == $userId) {
+        return $user;
     }
 });
