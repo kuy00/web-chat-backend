@@ -21,7 +21,7 @@ class DirectMessage extends Model
 
     public function directMessageContents()
     {
-        return $this->hasMany(DirectMessageContents::class);
+        return $this->hasMany(DirectMessageContent::class);
     }
 
     public function scopeCreateDirectMesage($query, $name, $users)
